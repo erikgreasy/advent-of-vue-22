@@ -6,6 +6,9 @@ const searchTerm = ref('')
 const foundProducts = ref([])
 const loading = ref(false)
 
+/**
+ * Fetch products from dummy api with debounce
+ */
 const findProducts = debounce(async term => {
   if(term === '') return foundProducts.value = []
 
@@ -32,11 +35,15 @@ watch(searchTerm, newTerm => findProducts(newTerm))
   <div class="w-full h-full flex flex-col gap-5 justify-center items-center">
     <h1 class="text-4xl font-bold">Gift Search Bar</h1>
     <input type="text" class="p-2 border-2 border-gray-dark" v-model="searchTerm" placeholder="Start typing..." />
+    
+    <!-- products -->
     <ul v-if="(foundProducts.length && !loading)" class="list-disc">
       <li v-for="product in foundProducts" :key="product.id">
         {{ product.title }} - {{ product.price }} €
       </li>
     </ul>
+
+    <!-- loader -->
     <div v-else-if="loading">
       Loading...
     </div>
