@@ -1,9 +1,64 @@
 <template>
   <div class="w-full h-full flex justify-center items-center">
-    <span class="text-3xl">Good luck!</span>
+    <div class="text-center">
+      <div class="mb-5">
+        {{ joke.setup }}
+      </div>
+
+      <button v-if="!isAnswerShown" @click="showAnswer" class="bg-green px-5 py-3">Tell me pretty PLEASE!</button>
+
+      <Transition>
+        <div v-show="isAnswerShown">
+          {{ joke.delivery }}
+        </div>
+      </Transition>
+
+      <Transition>
+        <button v-show="isAnotherOneShown" @click="getJoke" class="mt-10 bg-green px-5 py-3">Another one!</button>
+      </Transition>
+    </div>
   </div>
 </template>
 
 <script setup>
-// fetch('https://v2.jokeapi.dev/joke/christmas') ...
+import { onMounted, ref } from 'vue';
+
+const joke = ref({})
+const isAnswerShown = ref(false)
+const isAnotherOneShown = ref(false)
+
+const getJoke = async () => {
+  joke.value = {}
+  isAnswerShown.value = false
+  isAnotherOneShown.value = false
+
+  const res = await (
+    await fetch('https://v2.jokeapi.dev/joke/christmas')
+  ).json()
+
+  joke.value = res
+}
+
+const showAnswer = () => {
+  isAnswerShown.value = true
+
+  setTimeout(() => {
+    isAnotherOneShown.value = true
+  }, 1000)
+}
+
+onMounted(() => {
+  getJoke()
+})
 </script>
+
+<style scoped>
+.v-enter-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>
