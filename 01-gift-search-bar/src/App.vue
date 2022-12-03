@@ -7,16 +7,14 @@ const foundProducts = ref([])
 const loading = ref(false)
 
 const findProducts = debounce(async term => {
-  if(term === '') {
-    foundProducts.value = []
-    return
-  }
+  if(term === '') return foundProducts.value = []
 
   try {
     loading.value = true
 
-    const res = await fetch(`https://dummyjson.com/products/search?q=${term}`)
-    const data = await res.json()
+    const data = await (
+      await fetch(`https://dummyjson.com/products/search?q=${term}`)
+    ).json()
   
     foundProducts.value = data.products
   } catch(err) {
