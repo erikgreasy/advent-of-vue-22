@@ -5,7 +5,7 @@
         {{ joke.setup }}
       </div>
 
-      <button v-if="!isAnswerShown" @click="showAnswer" class="bg-green px-5 py-3">Tell me pretty PLEASE!</button>
+      <button v-if="!isAnswerShown" @click="showAnswer" class="bg-green px-5 py-3">Tell Me!</button>
 
       <Transition>
         <div v-show="isAnswerShown">
@@ -14,7 +14,7 @@
       </Transition>
 
       <Transition>
-        <button v-show="isAnotherOneShown" @click="getJoke" class="mt-10 bg-green px-5 py-3">Another one!</button>
+        <button v-show="isAnotherOneShown" @click="getJoke" class="mt-10 bg-green px-5 py-3">Another</button>
       </Transition>
     </div>
   </div>
