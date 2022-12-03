@@ -28,15 +28,20 @@ const isAnswerShown = ref(false)
 const isAnotherOneShown = ref(false)
 
 const getJoke = async () => {
-  joke.value = {}
-  isAnswerShown.value = false
-  isAnotherOneShown.value = false
-
-  const res = await (
-    await fetch('https://v2.jokeapi.dev/joke/christmas')
-  ).json()
-
-  joke.value = res
+  try {
+    joke.value = {}
+    isAnswerShown.value = false
+    isAnotherOneShown.value = false
+  
+    const res = await (
+      await fetch('https://v2.jokeapi.dev/joke/christmas')
+    ).json()
+  
+    joke.value = res
+  } catch(err) {
+    alert('Yikes, we got an error')
+    console.error(err)
+  }
 }
 
 const showAnswer = () => {
