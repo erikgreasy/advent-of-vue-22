@@ -1,9 +1,31 @@
 <script setup>
 import { ref, watch } from 'vue'
+import { debounce } from 'debounce'
 
 const searchTerm = ref('')
+const foundProducts = ref([])
+const loading = ref(false)
 
-const findProducts = async term => {}
+const findProducts = debounce(async term => {
+  if(term === '') {
+    foundProducts.value = []
+    return
+  }
+
+  try {
+    loading.value = true
+
+    const res = await fetch(`https://dummyjson.com/products/search?q=${term}`)
+    const data = await res.json()
+  
+    foundProducts.value = data.products
+  } catch(err) {
+    console.log(err)
+    alert('Ooops, something went wrong.')
+  } finally {
+    loading.value = false
+  }
+}, 300)
 
 watch(searchTerm, newTerm => findProducts(newTerm))
 </script>
@@ -12,8 +34,13 @@ watch(searchTerm, newTerm => findProducts(newTerm))
   <div class="w-full h-full flex flex-col gap-5 justify-center items-center">
     <h1 class="text-4xl font-bold">Gift Search Bar</h1>
     <input type="text" class="p-2 border-2 border-gray-dark" v-model="searchTerm" placeholder="Start typing..." />
-    <ul class="list-disc">
-      <li>Display suggestions here</li>
+    <ul v-if="(foundProducts.length && !loading)" class="list-disc">
+      <li v-for="product in foundProducts" :key="product.id">
+        {{ product.title }} - {{ product.price }} €
+      </li>
     </ul>
+    <div v-else-if="loading">
+      Loading...
+    </div>
   </div>
 </template>
