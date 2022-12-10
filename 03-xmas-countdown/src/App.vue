@@ -5,10 +5,23 @@ import { useNow } from '@vueuse/core'
 import { computed } from 'vue';
 
 const now = useNow()
-const christmas = new Date('12/25/2022 00:00:00')
+
+const christmas = computed(() => {
+  const christmas = new Date('12/25/2022 00:00:00') // year is just a placeholder, we set it dynamically
+  christmas.setFullYear(now.value.getFullYear())
+
+  // if this year's christmas is over, than set it to upcoming christmas
+  if(now.value.getTime() > christmas.getTime()) {
+    christmas.setFullYear(
+      now.value.getFullYear() + 1
+    ) 
+  }
+
+  return christmas
+})
 
 const diffDays = computed(() => {
-  const actual = (christmas.getTime() - now.value.getTime()) / (1000 * 60 * 60 * 24)
+  const actual = (christmas.value.getTime() - now.value.getTime()) / (1000 * 60 * 60 * 24)
   const rounded = Math.floor(actual)
 
   return {
