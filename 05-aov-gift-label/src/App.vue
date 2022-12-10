@@ -6,9 +6,19 @@
           <img src="/assets/santa.svg" alt="" class="max-w-[12em]" />
           <div>
             <h1 class="font-serif text-4xl">Happy Holidays!</h1>
-            <div class="mt-4 bg-white text-black p-2 rounded">TO: John</div>
-            <div class="mt-2 bg-white text-black p-2 rounded">FROM: Joana</div>
+            <div class="mt-4 bg-white text-black p-2 rounded">TO: {{ to }}</div>
+            <div class="mt-2 bg-white text-black p-2 rounded">FROM: {{ from }}</div>
           </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 mt-5">
+        <div>
+          <label class="block" for="to">To:</label>
+          <input v-model="to" type="text" id="to" class="border border-gray-300 py-2 px-2">
+        </div>
+        <div>
+          <label class="block" for="from">From:</label>
+          <input v-model="from" type="text" id="from" class="border border-gray-300 py-2 px-2">
         </div>
       </div>
     </div>
@@ -16,5 +26,8 @@
 </template>
 
 <script setup>
-// ...
+import { ref } from 'vue';
+
+const from = ref('')
+const to = ref('')
 </script>
