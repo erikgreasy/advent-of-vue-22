@@ -1,15 +1,35 @@
 <script setup>
 import ItemSelect from './components/ItemSelect.vue'
 import ComparisonSummary from './components/ComparisonSummary.vue'
+import { ref, onMounted } from 'vue';
+
+const products = ref([])
+
+const productX = ref(null)
+const productY = ref(null)
+
+const fetchProducts = async () => {
+  try {
+    const res = await (await fetch('https://dummyjson.com/products')).json()
+    products.value = res.products
+  } catch(err) {
+    console.log(err)
+    alert('Error while fetching products')
+  }
+}
+
+onMounted(() => {
+  fetchProducts()
+})
 </script>
 
 <template>
   <div class="w-full h-full flex flex-col gap-5 justify-center items-center">
     <h1 class="text-4xl font-bold">Select items to compare</h1>
     <div class="flex flex-col gap-5 justify-center">
-      <ItemSelect />
-      <ItemSelect />
+      <ItemSelect :products="products" @select-product="product => productX = product" />
+      <ItemSelect :products="products" @select-product="product => productY = product" />
     </div>
-    <ComparisonSummary />
+    <ComparisonSummary :product-x="productX" :product-y="productY" />
   </div>
 </template>
