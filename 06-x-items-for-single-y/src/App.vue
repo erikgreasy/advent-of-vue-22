@@ -4,10 +4,7 @@ import ComparisonSummary from './components/ComparisonSummary.vue'
 import { ref, onMounted } from 'vue';
 import { useItemComparison } from './composables/itemComparison';
 
-const { products } = useItemComparison() 
-
-const productX = ref(null)
-const productY = ref(null)
+const { products, productX, productY } = useItemComparison() 
 
 const fetchProducts = async () => {
   try {
@@ -31,6 +28,6 @@ onMounted(() => {
       <ItemSelect @select-product="product => productX = product" />
       <ItemSelect @select-product="product => productY = product" />
     </div>
-    <ComparisonSummary :product-x="productX" :product-y="productY" />
+    <ComparisonSummary />
   </div>
 </template>

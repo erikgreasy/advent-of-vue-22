@@ -1,41 +1,39 @@
 <script setup>
 import { computed } from 'vue';
+import { useItemComparison } from '../composables/itemComparison';
 
-const props = defineProps({
-  productX: Object,
-  productY: Object
-})
+const { productX, productY } = useItemComparison()
 
 const timesMoreExpensive = computed(() => {
-  if(props.productX?.price > props.productY?.price) {
+  if(productX.value?.price > productY.value?.price) {
     return Math.floor(
-      props.productX?.price / props.productY?.price
+      productX.value?.price / productY.value?.price
     )
   } else {
     return Math.floor(
-      props.productY?.price / props.productX?.price
+      productY.value?.price / productX.value?.price
     )
   }
 })
 
 const cheaperProduct = computed(() => {
-  if(props.productX?.price < props.productY?.price) {
-    return props.productX
+  if(productX.value?.price < productY.value?.price) {
+    return productX.value
   }
 
-  return props.productY
+  return productY.value
 })
 
 const moreExpensiveProduct = computed(() => {
-  if(cheaperProduct.value?.id === props.productX.id) {
-    return props.productY
+  if(cheaperProduct.value?.id === productX.value?.id) {
+    return productY.value
   }
 
-  return props.productX
+  return productX.value
 })
 
 const itemsAreTheSame = computed(() => {
-  return props.productX?.id === props.productY?.id
+  return productX.value?.id === productY.value?.id
 })
 </script>
 
