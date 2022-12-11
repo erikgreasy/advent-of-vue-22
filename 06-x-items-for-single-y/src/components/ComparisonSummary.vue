@@ -5,15 +5,9 @@ import { useItemComparison } from '../composables/itemComparison';
 const { productX, productY } = useItemComparison()
 
 const timesMoreExpensive = computed(() => {
-  if(productX.value?.price > productY.value?.price) {
-    return Math.floor(
-      productX.value?.price / productY.value?.price
-    )
-  } else {
-    return Math.floor(
-      productY.value?.price / productX.value?.price
-    )
-  }
+  return Math.floor(
+    moreExpensiveProduct.value.price / cheaperProduct.value.price
+  )
 })
 
 const cheaperProduct = computed(() => {
