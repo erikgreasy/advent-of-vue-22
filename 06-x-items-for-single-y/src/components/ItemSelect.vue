@@ -2,9 +2,7 @@
 import { ref } from 'vue'
 import { useItemComparison } from '../composables/itemComparison'
 
-const props = defineProps({
-  products: Array
-})
+const { products } = useItemComparison()
 
 defineEmits(['selectProduct'])
 
